@@ -60,13 +60,7 @@ def decode(rs, cd, trolley_available_time, trolley_carrying_capacity, trolley_co
     trolley_carry_capacity = copy.deepcopy(trolley_carrying_capacity)
     trolley_coord = copy.deepcopy(trolley_coordinate)
     depot_occupy = copy.deepcopy(supply_depot_occupy)
-    # trolley_available_time, trolley_carrying_capacity, trolley_coordinate = {}, {}, {}
-    # supply_depot_occupy = {}
-    # for _ in range(1, trolley_num+1):
-    #     trolley_available_time[_], trolley_carrying_capacity[_] = 0, UW
-    #     trolley_coordinate[_] = coordinate_data['停车位' + str(_)]
-    # for _ in range(1, supply_depot_num+1):
-    #     supply_depot_occupy[_] = [0, 0, 0]
+
     scheduling_list = []
     for step in range(len(rs)):
         rearing_pond_label, trolley_label = rs[step], cd[step]

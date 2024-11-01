@@ -67,16 +67,16 @@ def gantt(figure_num, schedule_stime, plt_item):
 
 
 def line_chart(label, fitness_iter_list, iteration_num):
-    iteration_num_list = [_ for _ in range(0, iteration_num)]
+    iteration_num_list = [_ for _ in range(1, iteration_num+1)]
     plt.rcParams['font.sans-serif'] = ['Times New Roman']
-    plt.rcParams['font.size'] = 35
+    # plt.rcParams['font.size'] = 35
     plt.plot(iteration_num_list, fitness_iter_list, label=label, linewidth=3, zorder=1)
     # x = [i for i in range(iteration_num)]
     # y = [j for j in fitness_iter_list]
     # plt.scatter(x, y, color='yellow', marker='p', s=50, zorder=2)
     plt.xlabel("Iteration number", size=35)
     plt.ylabel("Fitness value", size=35)
-    plt.legend(loc='upper right', fontsize=25)
+    plt.legend(loc='upper right', fontsize=10)
     plt.tick_params(labelsize=25)
     plt.tick_params(direction='in')
     # plt.xticks(np.arange(0, iteration_num+10, 10))

@@ -4,7 +4,7 @@ import pandas as pd
 data_aggregation = pd.DataFrame()
 
 beachmark = 'dynamic16'
-algorithm = 'ensga'
+algorithm = 'pso'
 scheduling_count = '2'
 input_file = 'scheduling'
 output_file = 'analysis_2s'

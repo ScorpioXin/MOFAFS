@@ -29,7 +29,7 @@ def fitness_data(filename):
 if __name__ == "__main__":
     seed_num = 1
     scheduling_cout = 1
-    file = '\\ensga'
+    file = 'ensga'
     # scheduling gantt
     filename = f'../SchedulingData/dynamic9/{file}/scheduling{str(scheduling_cout)}_{str(seed_num)}.xlsx'
     scheduling_data = scheduling_data(filename)
