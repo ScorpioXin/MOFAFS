@@ -60,6 +60,8 @@ def update_historical_optim(history_fitness_list1, history_fitness_list2, new_fi
         normal_fit_list = [beta * (fitness2 - fmin2) / (fmax2 - fmin2) for fitness2 in f2]
     elif fmax1 != fmin1 and fmax2 == fmin2:
         normal_fit_list = [alpha * (fitness1 - fmin1) / (fmax1 - fmin1) for fitness1 in f1]
+    else:
+        normal_fit_list = [0.5 for _ in f1]
     length = int(len(normal_fit_list)/2)
     his_norm_fit = normal_fit_list[:length]
     new_norm_fit = normal_fit_list[-length:]
@@ -92,7 +94,7 @@ def location_coding_conversion(pond_number, rs_position_set, cd_position_set):
 
     for idx, rs_position in enumerate(rs_position_set):
         rank_indices = np.argsort(rs_position)
-        new_RS[idx] = pond_number[rank_indices]
+        new_RS[idx][rank_indices] = pond_number
 
     for idx, cd_position in enumerate(cd_position_set):
         for pos, trolley in enumerate(cd_position):
@@ -108,21 +110,21 @@ def location_coding_conversion(pond_number, rs_position_set, cd_position_set):
 def coding_location_conversion(RS, CD, position):
     RS = np.array(RS)
     CD = np.array(CD)
-    rs_position_set = np.zeros_like(RS)
-    cd_position_set = np.zeros_like(CD)
+    rs_position_set = np.zeros_like(RS, dtype=float)
+    cd_position_set = np.zeros_like(CD, dtype=float)
 
     length = len(RS[0])
     linspace = np.linspace(-position, position, length)
     for idx, rs in enumerate(RS):
         rank_indices = np.argsort(rs)
-        rs_position_set[idx] = linspace[rank_indices]
+        rs_position_set[idx][rank_indices] = linspace
         cd_position_set[idx] = CD[idx]
     return rs_position_set, cd_position_set
 
 
 def iteration(now_scheduling_cout, hunger_data, w=0.3, c1=0.8, c2=1.7, velocity=3, position=10):
     iter_pond_RS, iter_pond_CD = init_pop(pop_size, hunger_data)
-    pond_number = np.array(iter_pond_RS[0], dtype=int)
+    pond_number = np.array(sorted(iter_pond_RS[0]), dtype=int)
     rs_position_set, cd_position_set = coding_location_conversion(iter_pond_RS, iter_pond_CD, position)
     velo_RS = np.random.uniform(-velocity, velocity, (len(iter_pond_RS), len(iter_pond_RS[0])))
     velo_CD = np.random.uniform(-velocity, velocity, (len(iter_pond_CD), len(iter_pond_CD[0])))

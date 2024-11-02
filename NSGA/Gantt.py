@@ -44,7 +44,7 @@ def gantt(figure_num, schedule_stime, plt_item):
         destination = single_scheduling[1]
         start_time = single_scheduling[2]
         end_time = single_scheduling[3]
-        # 转换成英文显示
+
         if destination[:4] == 'pond':
             text = 'RP' + destination[4:]
         else:
