@@ -1,73 +1,48 @@
+from openpyxl import load_workbook
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('TkAgg')
 
 
-fitness_list1 = [258.04, 273.84, 277.41, 254.47, 268.64, 269.27, 276.22, 263.73, 274.19, 257.17,
-                 290.7, 277.89, 288.17, 274.38, 269.41, 262.06, 275.78, 263.28, 273.25, 282.97,
-                 280.27, 271.18, 280.8, 279.02, 278.73, 327.59, 275.56, 275.33, 266.08, 269.53,
-                 273.59, 282.74, 279.85, 277.46, 276.84, 286.71, 270.18, 289.14, 271.81, 269.77,
-                 282.97, 287.31, 278.13, 292.43, 274.33, 272.44, 288.67, 280.73, 278.59, 284.23,
-                 272.06, 295.37, 308.62, 268.6, 302.92, 292.41, 305.83, 271.51, 256.78, 294.12,
-                 294.83, 275.75, 277.0, 288.43, 294.66, 294.97, 271.92, 345.37, 299.13, 288.31,
-                 291.71, 299.59, 277.87, 276.68, 253.57, 308.79, 290.29, 313.72, 269.65, 304.79,
-                 287.39, 279.2, 317.74, 289.9, 255.76, 318.34, 276.78, 290.21, 271.67, 274.52,
-                 280.18, 273.48, 285.63, 266.63, 275.9, 279.81, 310.47, 296.15, 291.39, 274.97]
-
-fitness_list2 = [601.35, 569.52, 528.23, 662.0, 611.48, 607.86, 584.55, 665.84, 592.62, 680.73,
-                 563.36, 570.54, 576.64, 608.45, 648.64, 645.08, 593.67, 711.11, 618.82, 577.63,
-                 581.44, 630.92, 588.27, 611.32, 616.5, 584.18, 632.04, 618.01, 755.85, 662.08,
-                 641.77, 603.28, 616.38, 627.64, 635.73, 589.63, 664.19, 585.23, 671.34, 631.84,
-                 603.5, 590.46, 610.1, 590.84, 683.9, 687.44, 603.04, 650.45, 673.91, 622.06,
-                 628.16, 658.16, 599.81, 601.55, 605.66, 695.62, 597.02, 612.08, 631.86, 636.32,
-                 786.18, 641.29, 594.3, 634.01, 792.19, 628.94, 641.2, 1019.8, 675.68, 630.28,
-                 711.3, 693.57, 655.52, 622.28, 601.5, 641.66, 775.92, 697.84, 616.38, 685.04,
-                 773.46, 803.06, 800.78, 627.42, 642.16, 587.18, 618.32, 876.81, 625.81, 584.42,
-                 557.16, 607.86, 664.63, 645.05, 654.37, 659.99, 699.65, 636.68, 663.12, 617.13]
-
-
+scheduling_count = 1
+start, middle, end = 1, 150, 300
+workbook = load_workbook(f'SolutionDistribution/static5_{start}.xlsx')
+# workbook = load_workbook(f'SolutionDistribution/dynamic15_{scheduling_count}_{start}.xlsx')
+sheet = workbook.active
+fitness_list1 = [cell.value for cell in sheet[2]]
+fitness_list2 = [cell.value for cell in sheet[3]]
 plt.figure(figsize=(10, 6))
 plt.hexbin(fitness_list1, fitness_list2, gridsize=30, cmap='Blues', mincnt=1)
-
-
-cb = plt.colorbar(label='Counts in Hexagons')
-
-plt.title("Hexbin Plot of Fitness Values")
-plt.xlabel("Fitness List 1 (x-axis)")
-plt.ylabel("Fitness List 2 (y-axis)")
+cb = plt.colorbar(label='Counts')
+plt.title("Distribution of fitness at the beginning of the iteration")
+plt.xlabel("Weighted makespan (f1)")
+plt.ylabel("Maximum load of AFVs (f2)")
 plt.grid(True)
 
-
-fitness_list1 = [203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53,
-                 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53,
-                 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53,
-                 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53,
-                 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53,
-                 203.53, 203.66, 244.11, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53,
-                 203.53, 239.27, 331.93, 203.53, 203.53, 221.29, 203.53, 203.53, 203.53, 203.53,
-                 203.53, 203.53, 247.18, 203.53, 203.53, 203.53, 203.53, 236.2, 203.66, 203.53,
-                 274.57, 203.53, 256.06, 203.53, 302.46, 259.1, 203.53, 203.53, 203.53, 203.53,
-                 262.83, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53, 203.53]
-
-fitness_list2 = [470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72,
-                 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72,
-                 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72,
-                 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72,
-                 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72,
-                 470.72, 470.72, 620.29, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72,
-                 470.72, 629.9, 894.91, 470.72, 470.72, 577.35, 470.72, 470.72, 470.72, 470.72,
-                 470.72, 470.72, 690.84, 470.72, 470.72, 470.72, 470.72, 653.3, 470.72, 470.72,
-                 772.2, 470.72, 608.24, 470.72, 741.47, 619.5, 470.72, 470.72, 470.72, 470.72,
-                 699.77, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72, 470.72]
-
-
+workbook = load_workbook(f'SolutionDistribution/static5_{middle}.xlsx')
+# workbook = load_workbook(f'SolutionDistribution/dynamic15_{scheduling_count}_{middle}.xlsx')
+sheet = workbook.active
+fitness_list3 = [cell.value for cell in sheet[2]]
+fitness_list4 = [cell.value for cell in sheet[3]]
 plt.figure(figsize=(10, 6))
-plt.hexbin(fitness_list1, fitness_list2, gridsize=30, cmap='Reds', mincnt=1)
-
-cb = plt.colorbar(label='Counts in Hexagons')
-
-plt.title("Hexbin Plot of Fitness Values")
-plt.xlabel("Fitness List 1 (x-axis)")
-plt.ylabel("Fitness List 2 (y-axis)")
+plt.hexbin(fitness_list3, fitness_list4, gridsize=30, cmap='Greens', mincnt=1)
+cb = plt.colorbar(label='Counts')
+plt.title("Distribution of fitness at mid-iteration")
+plt.xlabel("Weighted makespan (f1)")
+plt.ylabel("Maximum load of AFVs (f2)")
 plt.grid(True)
+
+workbook = load_workbook(f'SolutionDistribution/static5_{end}.xlsx')
+# workbook = load_workbook(f'SolutionDistribution/dynamic15_{scheduling_count}_{end}.xlsx')
+sheet = workbook.active
+fitness_list5 = [cell.value for cell in sheet[2]]
+fitness_list6 = [cell.value for cell in sheet[3]]
+plt.figure(figsize=(10, 6))
+plt.hexbin(fitness_list5, fitness_list6, gridsize=30, cmap='Reds', mincnt=1)
+cb = plt.colorbar(label='Counts')
+plt.title("Distribution of fitness at the end of the iteration")
+plt.xlabel("Weighted makespan (f1)")
+plt.ylabel("Maximum load of AFVs (f2)")
+plt.grid(True)
+
 plt.show()

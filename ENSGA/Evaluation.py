@@ -34,23 +34,19 @@ def manhattan_distance(position1, position2):
 def decode(rs, cd, trolley_available_time, trolley_carrying_capacity, trolley_coordinate, supply_depot_occupy, hunger_data):
     """decode single rs and cd"""
     def loading(trolley_label):
-        to_depot1_distance = manhattan_distance(trolley_coord[trolley_label], coordinate_data['depot1'])
-        to_depot2_distance = manhattan_distance(trolley_coord[trolley_label], coordinate_data['depot2'])
-        if (to_depot1_distance <= to_depot2_distance and trolley_avail_time[trolley_label]
-            + to_depot1_distance / SP >= min(depot_occupy[1])) or \
-                (to_depot1_distance > to_depot2_distance and trolley_avail_time[trolley_label] + to_depot2_distance
-                 / SP < min(depot_occupy[2])):
-            sv = trolley_avail_time[trolley_label]
-            el = round(sv + to_depot1_distance / SP + (UW - trolley_carry_capacity[trolley_label]) / SL, 2)
-            position_coordinate = coordinate_data['depot1']
-            depot_occupy[1][depot_occupy[1].index(min(depot_occupy[1]))] = el
-            single_scheduling = [trolley_label, 'depot1', sv, el, UW]
-        else:
-            sv = trolley_avail_time[trolley_label]
-            el = round(sv + to_depot2_distance / SP + (UW - trolley_carry_capacity[trolley_label]) / SL, 2)
-            position_coordinate = coordinate_data['depot2']
-            depot_occupy[2][depot_occupy[2].index(min(depot_occupy[2]))] = el
-            single_scheduling = [trolley_label, 'depot2', sv, el, UW]
+        to_depot_distance = []
+        for depot_label in range(1, supply_depot_num+1):
+            distance = manhattan_distance(trolley_coord[trolley_label], coordinate_data[f'depot{depot_label}'])
+            to_depot_distance.append([depot_label, distance])
+        for _, label_distance in enumerate(sorted(to_depot_distance, key=lambda x: (x[-1], x[-2]))):
+            label, distance = label_distance
+            if trolley_avail_time[trolley_label] + distance / SP >= min(depot_occupy[label]):
+                sv = trolley_avail_time[trolley_label]
+                el = round(sv + distance / SP + (UW - trolley_carry_capacity[trolley_label]) / SL, 2)
+                position_coordinate = coordinate_data[f'depot{label}']
+                depot_occupy[label][depot_occupy[label].index(min(depot_occupy[label]))] = el
+                single_scheduling = [trolley_label, f'depot{label}', sv, el, UW]
+                break
         trolley_avail_time[trolley_label] = el
         trolley_carry_capacity[trolley_label] = UW
         trolley_coord[trolley_label] = position_coordinate

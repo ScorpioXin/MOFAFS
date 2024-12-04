@@ -101,26 +101,19 @@ def iteration(now_scheduling_cout, hunger_data):
         fit_iter1.append(comb_fitness_list1[all_nondominated_idx[0][0]])
         fit_iter2.append(comb_fitness_list2[all_nondominated_idx[0][0]])
 
-        # if now_iteration_num == 5 or now_iteration_num == iteration_num:
-            # print(f'\nfitness_list1 = {comb_fitness_list1}\nfitness_list2 = {comb_fitness_list2}'   # print biodiversity
-            #       f'\nall_nondominated_idx = {all_nondominated_idx}')
+        # if now_iteration_num == 1 or now_iteration_num == 150 or now_iteration_num == iteration_num:
+        #     comb_fitness_list = []
+        #     comb_fitness_list.append(comb_fitness_list1)
+        #     comb_fitness_list.append(comb_fitness_list2)
+        #     path0 = f'../SolutionDistribution/dynamic15_{now_scheduling_cout}_{now_iteration_num}.xlsx'
+        #     fitness_data_to_excel(path0, comb_fitness_list)
 
     fit_iter.append(fit_iter1)
     fit_iter.append(fit_iter2)
-    path1 = f'../FitnessData/dynamic16/ensga/scheduling{str(now_scheduling_cout)}_{str(seed_num)}.xlsx'
+    # path1 = f'../FitnessData/dynamic16/ensga/scheduling{str(now_scheduling_cout)}_{str(seed_num)}.xlsx'
+    # fitness_data_to_excel(path1, fit_iter)
+    path1 = f'../test/scheduling{str(now_scheduling_cout)}_{str(seed_num)}.xlsx'
     fitness_data_to_excel(path1, fit_iter)
-
-    # manual_fit, manual_fit1, manual_fit2 = [], [], []
-    # for mrs, mcd in zip(manual_RS, manual_CD):
-    #     manual_scheduling_list = decode(mrs, mcd, trolley_available_time, trolley_carrying_capacity, trolley_coordinate,
-    #                              supply_depot_occupy, hunger_data)
-    #     mfit1, mfit2 = evaluation(manual_scheduling_list, hunger_data, scheduling_start_time)
-    #     manual_fit1.append(mfit1)
-    #     manual_fit2.append(mfit2)
-    # manual_fit.append(manual_fit1)
-    # manual_fit.append(manual_fit2)
-    # path2 = f'../FitnessData/static1/manual/scheduling{str(now_scheduling_cout)}{str(seed_num)}.xlsx'
-    # fitness_data_to_excel(path2, manual_fit)
     return iter_pond_RS, iter_pond_CD
 
 
@@ -146,8 +139,8 @@ def main():
             scheduling_list = decode(optimal_rs, optimal_cd, trolley_available_time, trolley_carrying_capacity,
                                      trolley_coordinate, supply_depot_occupy, hunger_data)
         all_scheduling_list.append(scheduling_list)
-        path1 = f'../SchedulingData/dynamic16/ensga/scheduling{str(now_scheduling_cout)}_{str(seed_num)}.xlsx'
-        scheduling_data_to_excel(path1, scheduling_list)
+        # path1 = f'../SchedulingData/dynamic16/ensga/scheduling{str(now_scheduling_cout)}_{str(seed_num)}.xlsx'
+        # scheduling_data_to_excel(path1, scheduling_list)
     return all_scheduling_list, finish_ongoing_scheduling
 
 
@@ -182,5 +175,5 @@ if __name__ == "__main__":
     #     else:
     #         schedule_stime = float('inf')
     #     gantt(figure_num, schedule_stime, scheduling_list)
-    # gantt(scheduling_num, float('inf'), finish_ongoing_scheduling+all_scheduling_list[-1])
+    # # gantt(scheduling_num, float('inf'), finish_ongoing_scheduling+all_scheduling_list[-1])
     # plt.show()

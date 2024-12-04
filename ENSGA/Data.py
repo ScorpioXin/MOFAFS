@@ -14,7 +14,7 @@ def coordinate_data():
 
 
 def all_hunger_data():
-    hunger_excel = load_workbook(filename="../Beachmark/dynamic/16.xlsx", data_only=True)
+    hunger_excel = load_workbook(filename="../Beachmark/static/6.xlsx", data_only=True)
     sheet_names = hunger_excel.sheetnames
     sheet_count = len(sheet_names)
     all_hunger_data = []

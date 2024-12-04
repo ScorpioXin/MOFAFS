@@ -170,9 +170,9 @@ def iteration(now_scheduling_cout, hunger_data, position=10):
             comb_fitness_list2.append(fitness2)
         rs_position_set, cd_position_set, best_pos_rs, best_pos_cd, optim_fit1, optim_fit2, optim_rs, optim_cd, iter_pond_RS, iter_pond_CD =\
             selection(comb_fitness_list1, comb_fitness_list2, comb_pos_rs, comb_pos_cd, comb_RS, comb_CD)
-
         fit_iter1.append(optim_fit1)
         fit_iter2.append(optim_fit2)
+
     fit_iter.append(fit_iter1)
     fit_iter.append(fit_iter2)
     path1 = f'../FitnessData/dynamic16/woa/scheduling{str(now_scheduling_cout)}_{str(seed_num)}.xlsx'
