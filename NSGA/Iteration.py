@@ -1,13 +1,9 @@
 from Encode import init_pop
-from Data import all_hunger_data, trolley_num, coordinate_data, UW, supply_depot_num, scheduling_num, \
-                 scheduling_data_to_excel, fitness_data_to_excel
+from Data import all_hunger_data, trolley_num, coordinate_data, UW, supply_depot_num, scheduling_data_to_excel, fitness_data_to_excel
 from Operators import Operators
 from Evaluation import decode, evaluation, nondominated_sort
-from Gantt import gantt, line_chart
 
-import matplotlib.pyplot as plt
 import random
-import pandas as pd
 import copy
 import time
 
@@ -48,7 +44,7 @@ def backtrack_function(now_scheduling_cout, scheduling_list):
 
 def iteration(now_scheduling_cout, hunger_data):
     iter_pond_RS, iter_pond_CD = init_pop(pop_size, hunger_data)
-    operator = Operators(pop_size, iteration_num, pf_max, pf_min, theta, now_scheduling_cout)
+    operator = Operators(pop_size, iteration_num, pf_max, pf_min, now_scheduling_cout)
     fit_iter, fit_iter1, fit_iter2 = [], [], []
     for now_iteration_num in range(1, iteration_num+1):
         print(f'\rrunning count:{seed_num} ---> scheduling count:{now_scheduling_cout} ---> total iteration{iteration_num} ---> now iteration:{now_iteration_num}', end="")
@@ -87,8 +83,7 @@ def iteration(now_scheduling_cout, hunger_data):
             comb_fitness_list2.append(fitness2)
         all_nondominated_idx = nondominated_sort(comb_fitness_list1, comb_fitness_list2)
 
-        iter_pond_RS, iter_pond_CD = operator.selection(comb_fitness_list1, comb_fitness_list2, all_nondominated_idx,
-                                                        comb_RS, comb_CD, now_iteration_num)
+        iter_pond_RS, iter_pond_CD = operator.selection(comb_fitness_list1, comb_fitness_list2, all_nondominated_idx, comb_RS, comb_CD)
         fit_iter1.append(comb_fitness_list1[all_nondominated_idx[0][0]])
         fit_iter2.append(comb_fitness_list2[all_nondominated_idx[0][0]])
 
@@ -134,7 +129,6 @@ finish_ongoing_scheduling = []
 
 pop_size = 50
 iteration_num = 300
-theta = 150
 pf_max = 1
 pf_min = 0.2
 pc = 0.9
@@ -146,18 +140,7 @@ scheduling_start_time = 0
 if __name__ == "__main__":
     com_scheduling_list = []
     stime = time.time()
-    # seed_num = 2
-
     for seed_num in range(1, 21):
         random.seed(seed_num)
         all_scheduling_list, finish_ongoing_scheduling = main()
     print(f'\n{time.time()-stime}')
-
-    # for figure_num, scheduling_list in enumerate(all_scheduling_list):
-    #     if figure_num != len(all_scheduling_list)-1:
-    #         schedule_stime = (figure_num+1)*scheduling_interval
-    #     else:
-    #         schedule_stime = float('inf')
-    #     gantt(figure_num, schedule_stime, scheduling_list)
-    # gantt(scheduling_num, float('inf'), finish_ongoing_scheduling+all_scheduling_list[-1])
-    # plt.show()

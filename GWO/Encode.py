@@ -1,4 +1,4 @@
-from Data import coordinate_data, all_hunger_data, coefficient_data, available_trolley_data, hunger_threshold
+from Data import available_trolley_data, hunger_threshold
 
 import random
 
@@ -40,9 +40,3 @@ def init_pop(pop_size, hunger_data):
         CD.append(cd_list)
     del encode
     return RS, CD
-
-
-# coordinate_data = coordinate_data()
-# hunger_data = hunger_data()
-# coefficient_data = coefficient_data()
-# available_trolley_data = available_trolley_data()

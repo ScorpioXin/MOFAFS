@@ -1,11 +1,7 @@
-from Data import coordinate_data, all_hunger_data, coefficient_data, available_trolley_data, trolley_num,\
-                 hunger_threshold, supply_depot_num, w, l, h, UW, LW,  SP, SF, SL
+from Data import coordinate_data, coefficient_data, trolley_num, hunger_threshold, supply_depot_num, w, l, h, UW, LW,  SP, SF, SL
 from Encode import dynamic_urgency
 
-
-import pandas as pd
 import copy
-import time
 
 
 def manhattan_distance(position1, position2):
@@ -91,28 +87,5 @@ def evaluation(scheduling_list, hunger_data, scheduling_start_time):
             rearing_pond_label = int(scheduling[1][4:])
             fitness1 = fitness1 + dyn_urg[rearing_pond_label-1]*(scheduling[3]-scheduling_start_time)
         trolley_load[trolley_label - 1] = trolley_load[trolley_label - 1] + (scheduling[3] - scheduling[2])
-        # trolley_load[trolley_label-1] = trolley_load[trolley_label-1] + (scheduling[3]-scheduling[2])*(scheduling[4]/UW)
     fitness2 = max(trolley_load)
     return round(fitness1, 2), round(fitness2, 2)
-
-
-def nondominated_sort(comb_fitness_list1, comb_fitness_list2):
-    fitness_list1, fitness_list2 = comb_fitness_list1.copy(), comb_fitness_list2.copy()
-    all_nondominated_idx = []
-    complete_flag = [float("inf") for _ in range(len(fitness_list1))]
-    while fitness_list1 != complete_flag:
-        nondominated_idx_list = []
-        for idx_now in range(len(fitness_list1)):
-            for idx_comp in range(len(fitness_list1)):
-                if fitness_list1[idx_now] < fitness_list1[idx_comp] or fitness_list2[idx_now] < fitness_list2[idx_comp]\
-                        or (fitness_list1[idx_now] == fitness_list1[idx_comp] and fitness_list2[idx_now] == fitness_list2[idx_comp]):
-                    if idx_comp != len(fitness_list1) - 1:
-                        continue
-                    else:
-                        nondominated_idx_list.append(idx_now)
-                else:
-                    break
-        all_nondominated_idx.append(nondominated_idx_list)
-        for nondominated_idx in nondominated_idx_list:
-            fitness_list1[nondominated_idx], fitness_list2[nondominated_idx] = float("inf"), float("inf")
-    return all_nondominated_idx

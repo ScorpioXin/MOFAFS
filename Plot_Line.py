@@ -34,7 +34,6 @@ if __name__ == "__main__":
     file4 = 'ensga'
     beachmark = 'dynamic16'
 
-    # fitness line
     filename0 = f'FitnessData/{beachmark}/{file0}/scheduling{scheduling_cout}_{seed_num}.xlsx'
     fitness_data0 = fitness_data(filename0)
     filename1 = f'FitnessData/{beachmark}/{file1}/scheduling{scheduling_cout}_{seed_num}.xlsx'

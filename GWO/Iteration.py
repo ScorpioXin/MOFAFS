@@ -1,13 +1,9 @@
 from Encode import init_pop
-from Data import all_hunger_data, trolley_num, coordinate_data, UW, supply_depot_num, scheduling_num, \
-                 scheduling_data_to_excel, fitness_data_to_excel, available_trolley_data
-from Evaluation import decode, evaluation, nondominated_sort
+from Data import all_hunger_data, trolley_num, coordinate_data, UW, supply_depot_num, scheduling_data_to_excel, fitness_data_to_excel, available_trolley_data
+from Evaluation import decode, evaluation
 
-import matplotlib.pyplot as plt
 import numpy as np
 import random
-import pandas as pd
-import itertools
 import copy
 import time
 
@@ -215,11 +211,6 @@ finish_ongoing_scheduling = []
 
 pop_size = 50
 iteration_num = 300
-theta = 150
-pf_max = 1
-pf_min = 0.2
-pc = 0.9
-pm = 0.2
 scheduling_interval = 200
 scheduling_start_time = 0
 
@@ -232,4 +223,3 @@ if __name__ == "__main__":
         random.seed(seed_num)
         all_scheduling_list, finish_ongoing_scheduling = main()
     print(f'\n{time.time()-stime}')
-

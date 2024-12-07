@@ -22,7 +22,6 @@ if __name__ == "__main__":
     plt.title("Distribution of fitness at the beginning of the iteration")
     plt.xlabel("Weighted makespan (f1)")
     plt.ylabel("Maximum load of AFVs (f2)")
-    # plt.grid(True)
 
     # workbook = load_workbook(f'SolutionDistribution/{beachmark}_{middle}.xlsx')
     workbook = load_workbook(f'SolutionDistribution/{beachmark}_{scheduling_count}_{middle}.xlsx')
@@ -35,7 +34,6 @@ if __name__ == "__main__":
     plt.title("Distribution of fitness at mid-iteration")
     plt.xlabel("Weighted makespan (f1)")
     plt.ylabel("Maximum load of AFVs (f2)")
-    # plt.grid(True)
 
     # workbook = load_workbook(f'SolutionDistribution/{beachmark}_{end}.xlsx')
     workbook = load_workbook(f'SolutionDistribution/{beachmark}_{scheduling_count}_{end}.xlsx')
@@ -48,6 +46,5 @@ if __name__ == "__main__":
     plt.title("Distribution of fitness at the end of the iteration")
     plt.xlabel("Weighted makespan (f1)")
     plt.ylabel("Maximum load of AFVs (f2)")
-    # plt.grid(True)
 
     plt.show()

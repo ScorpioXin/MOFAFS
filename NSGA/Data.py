@@ -77,6 +77,3 @@ LW = 2
 SP = 1
 SF = 0.1
 SL = 0.5
-
-if __name__ == "__main__":
-    print(all_hunger_data)

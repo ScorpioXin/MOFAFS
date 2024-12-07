@@ -1,11 +1,10 @@
-from Data import coordinate_data, all_hunger_data, coefficient_data, available_trolley_data, hunger_threshold
+from Data import available_trolley_data, hunger_threshold
 
 import random
 
 
 class Encode:
     def __init__(self, hunger_data):
-        """input single sheet of hunger data"""
         self.hunger_data = hunger_data
         self.rearing_pond_needed = [_ for _ in range(1, len(self.hunger_data) + 1) if self.hunger_data[_] >= hunger_threshold]
         self.rearing_pond_needed_hunger = [self.hunger_data[_] for _ in self.rearing_pond_needed]
@@ -41,9 +40,3 @@ def init_pop(pop_size, hunger_data):
         CD.append(cd_list)
     del encode
     return RS, CD
-
-
-# coordinate_data = coordinate_data()
-# hunger_data = hunger_data()
-# coefficient_data = coefficient_data()
-# available_trolley_data = available_trolley_data()

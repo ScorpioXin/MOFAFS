@@ -1,13 +1,9 @@
 from Encode import init_pop
-from Data import all_hunger_data, trolley_num, coordinate_data, UW, supply_depot_num, scheduling_num, \
-                 scheduling_data_to_excel, fitness_data_to_excel
+from Data import all_hunger_data, trolley_num, coordinate_data, UW, supply_depot_num, scheduling_data_to_excel, fitness_data_to_excel
 from Operators import Operators
 from Evaluation import decode, evaluation, nondominated_sort
-from Gantt import gantt, line_chart
 
-import matplotlib.pyplot as plt
 import random
-import pandas as pd
 import copy
 import time
 
@@ -48,12 +44,10 @@ def backtrack_function(now_scheduling_cout, scheduling_list):
 
 def iteration(now_scheduling_cout, hunger_data):
     iter_pond_RS, iter_pond_CD = init_pop(pop_size, hunger_data)
-    # manual_RS, manual_CD = init_pop(10, hunger_data)
     operator = Operators(pop_size, iteration_num, pf_max, pf_min, theta, now_scheduling_cout)
     fit_iter, fit_iter1, fit_iter2 = [], [], []
     for now_iteration_num in range(1, iteration_num+1):
         print(f'\rrunning count:{seed_num} ---> scheduling count:{now_scheduling_cout} ---> total iteration{iteration_num} ---> now iteration:{now_iteration_num}', end="")
-        # crossover and mutation
         CRS, CCD = [], []
         while len(CRS) < pop_size:
             c_rs, c_cd = [], []
@@ -69,8 +63,6 @@ def iteration(now_scheduling_cout, hunger_data):
                 if len(c_rs) == 0:
                     c_rs, c_cd = p_rs.copy(), p_cd.copy()
                 random_probability = random.uniform(0, 1)
-                # if random_probability < 0.33 and len(c_rs) >= 2:
-                #     c_rs, c_cd = operator.insertion_mutation(c_rs, c_cd)
                 if random_probability < 0.5 and len(c_rs) >= 2:
                     c_rs, c_cd = operator.exchange_mutation(c_rs, c_cd)
                 elif len(c_rs) >= 2:
@@ -81,13 +73,13 @@ def iteration(now_scheduling_cout, hunger_data):
                 CCD.append(c_cd)
         comb_RS, comb_CD = iter_pond_RS + CRS, iter_pond_CD + CCD
         comb_fitness_list1, comb_fitness_list2 = [], []
-        # greedy operator
+
         for indiv_idx in range(0, len(comb_RS)):
             rs, cd = comb_RS[indiv_idx], comb_CD[indiv_idx]
             c_rs, c_cd = operator.greed(rs, cd, trolley_available_time, trolley_carrying_capacity,
                                         trolley_coordinate, supply_depot_occupy, scheduling_start_time)
             comb_RS[indiv_idx], comb_CD[indiv_idx] = c_rs, c_cd
-        # evaluation
+
         for rs, cd in zip(comb_RS, comb_CD):
             scheduling_list = decode(rs, cd, trolley_available_time, trolley_carrying_capacity, trolley_coordinate,
                                      supply_depot_occupy, hunger_data)
@@ -95,7 +87,7 @@ def iteration(now_scheduling_cout, hunger_data):
             comb_fitness_list1.append(fitness1)
             comb_fitness_list2.append(fitness2)
         all_nondominated_idx = nondominated_sort(comb_fitness_list1, comb_fitness_list2)
-        # selection
+
         iter_pond_RS, iter_pond_CD = operator.selection(comb_fitness_list1, comb_fitness_list2, all_nondominated_idx,
                                                         comb_RS, comb_CD, now_iteration_num)
         fit_iter1.append(comb_fitness_list1[all_nondominated_idx[0][0]])
@@ -110,9 +102,7 @@ def iteration(now_scheduling_cout, hunger_data):
 
     fit_iter.append(fit_iter1)
     fit_iter.append(fit_iter2)
-    # path1 = f'../FitnessData/dynamic16/ensga/scheduling{str(now_scheduling_cout)}_{str(seed_num)}.xlsx'
-    # fitness_data_to_excel(path1, fit_iter)
-    path1 = f'../test/scheduling{str(now_scheduling_cout)}_{str(seed_num)}.xlsx'
+    path1 = f'../FitnessData/dynamic16/ensga/scheduling{str(now_scheduling_cout)}_{str(seed_num)}.xlsx'
     fitness_data_to_excel(path1, fit_iter)
     return iter_pond_RS, iter_pond_CD
 
@@ -139,8 +129,8 @@ def main():
             scheduling_list = decode(optimal_rs, optimal_cd, trolley_available_time, trolley_carrying_capacity,
                                      trolley_coordinate, supply_depot_occupy, hunger_data)
         all_scheduling_list.append(scheduling_list)
-        # path1 = f'../SchedulingData/dynamic16/ensga/scheduling{str(now_scheduling_cout)}_{str(seed_num)}.xlsx'
-        # scheduling_data_to_excel(path1, scheduling_list)
+        path1 = f'../SchedulingData/dynamic16/ensga/scheduling{str(now_scheduling_cout)}_{str(seed_num)}.xlsx'
+        scheduling_data_to_excel(path1, scheduling_list)
     return all_scheduling_list, finish_ongoing_scheduling
 
 
@@ -168,12 +158,3 @@ if __name__ == "__main__":
         random.seed(seed_num)
         all_scheduling_list, finish_ongoing_scheduling = main()
     print(f'\n{time.time()-stime}')
-
-    # for figure_num, scheduling_list in enumerate(all_scheduling_list):
-    #     if figure_num != len(all_scheduling_list)-1:
-    #         schedule_stime = (figure_num+1)*scheduling_interval
-    #     else:
-    #         schedule_stime = float('inf')
-    #     gantt(figure_num, schedule_stime, scheduling_list)
-    # # gantt(scheduling_num, float('inf'), finish_ongoing_scheduling+all_scheduling_list[-1])
-    # plt.show()

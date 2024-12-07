@@ -1,12 +1,9 @@
 from Encode import init_pop
-from Data import all_hunger_data, trolley_num, coordinate_data, UW, supply_depot_num, scheduling_num, \
-                 scheduling_data_to_excel, fitness_data_to_excel, available_trolley_data
-from Evaluation import decode, evaluation, nondominated_sort
+from Data import all_hunger_data, trolley_num, coordinate_data, UW, supply_depot_num, scheduling_data_to_excel, fitness_data_to_excel, available_trolley_data
+from Evaluation import decode, evaluation
 
-import matplotlib.pyplot as plt
 import numpy as np
 import random
-import pandas as pd
 import copy
 import time
 
@@ -102,8 +99,6 @@ def location_coding_conversion(pond_number, rs_position_set, cd_position_set):
                 new_CD[idx][pos] = int(abs(trolley))
             else:
                 new_CD[idx][pos] = random.choice(available_trolley_data[new_RS[idx][pos]])
-            # avail_trolley_num = len(available_trolley_data[new_RS[idx][pos]])
-            # new_CD[idx][pos] = available_trolley_data[new_RS[idx][pos]][int(abs(trolley) % avail_trolley_num)]
     return new_RS.tolist(), new_CD.tolist()
 
 
@@ -146,7 +141,7 @@ def iteration(now_scheduling_cout, hunger_data, w=0.3, c1=0.8, c2=1.7, velocity=
         velo_CD = w*velo_CD + c1*random.random()*(ind_optim_pos_CD-cd_position_set) + c2*random.random()*(glo_optim_pos_CD-cd_position_set)
         velo_RS = np.where((velo_RS < -velocity) | (velo_RS > velocity), np.random.uniform(-velocity, velocity, velo_RS.shape), velo_RS)
         velo_CD = np.where((velo_CD < -velocity) | (velo_CD > velocity), np.random.uniform(-velocity, velocity, velo_CD.shape), velo_CD)
-        # print(velo_RS)
+
         rs_position_set = rs_position_set + velo_RS
         cd_position_set = cd_position_set + velo_CD
         rs_position_set = np.where((rs_position_set < -position) | (rs_position_set > position), np.random.uniform(-position, position, rs_position_set.shape), rs_position_set)
@@ -154,8 +149,6 @@ def iteration(now_scheduling_cout, hunger_data, w=0.3, c1=0.8, c2=1.7, velocity=
 
         new_fitness_list1, new_fitness_list2 = [], []
         new_RS, new_CD = location_coding_conversion(pond_number, rs_position_set, cd_position_set)
-        # print(f"\n{new_RS}")
-        # print(new_CD)
         for rs, cd in zip(new_RS, new_CD):
             scheduling_list = decode(rs, cd, trolley_available_time, trolley_carrying_capacity, trolley_coordinate,
                                      supply_depot_occupy, hunger_data)
@@ -167,9 +160,6 @@ def iteration(now_scheduling_cout, hunger_data, w=0.3, c1=0.8, c2=1.7, velocity=
             update_historical_optim(history_fitness_list1, history_fitness_list2, new_fitness_list1, new_fitness_list2, history_indiv_optim_RS, history_indiv_optim_CD, new_RS, new_CD, ind_optim_pos_RS, ind_optim_pos_CD, rs_position_set, cd_position_set)
         fit_iter1.append(global_optim_fit1)
         fit_iter2.append(global_optim_fit2)
-
-        # if now_iteration_num == 1 or now_iteration_num == 300:
-        #     print(f'\nfitness_list1 = {new_fitness_list1}\nfitness_list2 = {new_fitness_list2}')
 
     fit_iter.append(fit_iter1)
     fit_iter.append(fit_iter2)
@@ -211,11 +201,6 @@ finish_ongoing_scheduling = []
 
 pop_size = 50
 iteration_num = 300
-theta = 150
-pf_max = 1
-pf_min = 0.2
-pc = 0.9
-pm = 0.2
 scheduling_interval = 200
 scheduling_start_time = 0
 
@@ -228,4 +213,3 @@ if __name__ == "__main__":
         random.seed(seed_num)
         all_scheduling_list, finish_ongoing_scheduling = main()
     print(f'\n{time.time()-stime}')
-

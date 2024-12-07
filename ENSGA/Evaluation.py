@@ -1,11 +1,7 @@
-from Data import coordinate_data, all_hunger_data, coefficient_data, available_trolley_data, trolley_num,\
-                 hunger_threshold, supply_depot_num, w, l, h, UW, LW,  SP, SF, SL
+from Data import coordinate_data, coefficient_data, trolley_num, hunger_threshold, supply_depot_num, w, l, h, UW, LW,  SP, SF, SL
 from Encode import dynamic_urgency
 
-
-import pandas as pd
 import copy
-import time
 
 
 def manhattan_distance(position1, position2):
@@ -32,7 +28,6 @@ def manhattan_distance(position1, position2):
 
 
 def decode(rs, cd, trolley_available_time, trolley_carrying_capacity, trolley_coordinate, supply_depot_occupy, hunger_data):
-    """decode single rs and cd"""
     def loading(trolley_label):
         to_depot_distance = []
         for depot_label in range(1, supply_depot_num+1):
@@ -57,13 +52,7 @@ def decode(rs, cd, trolley_available_time, trolley_carrying_capacity, trolley_co
     trolley_carry_capacity = copy.deepcopy(trolley_carrying_capacity)
     trolley_coord = copy.deepcopy(trolley_coordinate)
     depot_occupy = copy.deepcopy(supply_depot_occupy)
-    # trolley_available_time, trolley_carrying_capacity, trolley_coordinate = {}, {}, {}
-    # supply_depot_occupy = {}
-    # for _ in range(1, trolley_num+1):
-    #     trolley_available_time[_], trolley_carrying_capacity[_] = 0, UW
-    #     trolley_coordinate[_] = coordinate_data['parking' + str(_)]
-    # for _ in range(1, supply_depot_num+1):
-    #     supply_depot_occupy[_] = [0, 0, 0]
+
     scheduling_list = []
     for step in range(len(rs)):
         rearing_pond_label, trolley_label = rs[step], cd[step]
@@ -98,7 +87,6 @@ def evaluation(scheduling_list, hunger_data, scheduling_start_time):
             rearing_pond_label = int(scheduling[1][4:])
             fitness1 = fitness1 + dyn_urg[rearing_pond_label-1]*(scheduling[3]-scheduling_start_time)
         trolley_load[trolley_label - 1] = trolley_load[trolley_label - 1] + (scheduling[3] - scheduling[2])
-        # trolley_load[trolley_label-1] = trolley_load[trolley_label-1] + (scheduling[3]-scheduling[2])*(scheduling[4]/UW)
     fitness2 = max(trolley_load)
     return round(fitness1, 2), round(fitness2, 2)
 

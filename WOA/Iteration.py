@@ -1,13 +1,9 @@
 from Encode import init_pop
-from Data import all_hunger_data, trolley_num, coordinate_data, UW, supply_depot_num, scheduling_num, \
-                 scheduling_data_to_excel, fitness_data_to_excel, available_trolley_data
-from Evaluation import decode, evaluation, nondominated_sort
+from Data import all_hunger_data, trolley_num, coordinate_data, UW, supply_depot_num, scheduling_data_to_excel, fitness_data_to_excel, available_trolley_data
+from Evaluation import decode, evaluation
 
-import matplotlib.pyplot as plt
 import numpy as np
 import random
-import pandas as pd
-import itertools
 import copy
 import time
 
@@ -212,11 +208,6 @@ finish_ongoing_scheduling = []
 
 pop_size = 50
 iteration_num = 300
-theta = 150
-pf_max = 1
-pf_min = 0.2
-pc = 0.9
-pm = 0.2
 scheduling_interval = 200
 scheduling_start_time = 0
 
@@ -230,22 +221,4 @@ if __name__ == "__main__":
     for seed_num in range(1, 21):
         random.seed(seed_num)
         init_fit11, init_fit12, init_fit21, init_fit22 = main()
-
-    #     fit11.append(init_fit11)
-    #     fit12.append(init_fit12)
-    #     if init_fit21 != 0 and init_fit22 != 0:
-    #         fit21.append(init_fit21)
-    #         fit22.append(init_fit22)
-    # comfit1s.append(fit11)
-    # comfit1s.append(fit12)
-    # comfit2s.append(fit21)
-    # comfit2s.append(fit22)
-    #
-    # path1 = f'../FitnessData/dynamic16/first_init_fitness.xlsx'
-    # fitness_data_to_excel(path1, comfit1s)
-    # if len(comfit2s[0]) != 0:
-    #     path2 = f'../FitnessData/dynamic16/second_init_fitness.xlsx'
-    #     fitness_data_to_excel(path2, comfit2s)
-
     print(f'\n{time.time()-stime}')
-

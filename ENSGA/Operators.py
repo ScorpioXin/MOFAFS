@@ -1,4 +1,4 @@
-from Data import coordinate_data, all_hunger_data, coefficient_data, available_trolley_data
+from Data import all_hunger_data, available_trolley_data
 from Encode import init_pop
 from Evaluation import decode, evaluation
 
@@ -30,7 +30,6 @@ class Operators:
         return c_rs, c_cd
 
     def rpx_crossover(self, p1_rs, p1_cd, p2_rs, p2_cd, now_iteration_num):
-        """c_rs -> p1_rs; c_cd -> p1_cd; one of p1_rs and p2_rs -> p2_rs; one of p1_cd and p2_cd -> p2_cd"""
         pf = self.pf_max - (self.pf_max - self.pf_min) / self.iteration_num * now_iteration_num
         R = [random.random() for _ in range(len(p1_rs))]
         rpx_value = [p1_rs[idx] for idx, value in enumerate(R) if value < pf]
@@ -96,15 +95,14 @@ class Operators:
         return c_rs, c_cd
 
     def selection(self, comb_fitness_list1, comb_fitness_list2, all_nondominated_idx, comb_RS, comb_CD, now_iteration_num):
-        """all_nondominated_idx = [[grade one's index],[],...]; comb_rs = p_rs + c_rs; comb_cd = p_cd + c_cd"""
         global hf1_max, hf1_min, hf2_max, hf2_min, alpha, beta
         sigma = 1 - 1/(1+math.exp(-(self.iteration_num/20) * (now_iteration_num-self.iteration_num/2) * (1/self.theta)))
         iter_pond_RS, iter_pond_CD = [], []
-        existed_individual = []     # individual = rs + cd
+        existed_individual = []
         for nondominated_idx in all_nondominated_idx:
             if len(iter_pond_RS) == self.pop_size:
                 break
-            elif len(nondominated_idx) <= self.pop_size - len(iter_pond_RS):  # N_i <= PN - IN
+            elif len(nondominated_idx) <= self.pop_size - len(iter_pond_RS):
                 for idx in nondominated_idx:
                     individual = []
                     individual.append(comb_fitness_list1[idx])
@@ -115,7 +113,7 @@ class Operators:
                         iter_pond_RS.append(comb_RS[idx])
                         iter_pond_CD.append(comb_CD[idx])
                         existed_individual.append(individual)
-            else:   # N_i > PN - IN
+            else:
                 nondominated_fitness_list1 = [comb_fitness_list1[idx] for idx in nondominated_idx]
                 nondominated_fitness_list2 = [comb_fitness_list2[idx] for idx in nondominated_idx]
                 fmax1, fmin1 = max(nondominated_fitness_list1), min(nondominated_fitness_list1)
@@ -147,8 +145,6 @@ class Operators:
                     sorted_nondominated_idx = copy.copy(nondominated_idx)
                 for idx in sorted_nondominated_idx:
                     individual = []
-                    # individual.extend(comb_RS[idx])
-                    # individual.extend(comb_CD[idx])
                     individual.append(comb_fitness_list1[idx])
                     individual.append(comb_fitness_list2[idx])
                     if individual in existed_individual and random.random() <= sigma:
@@ -163,8 +159,6 @@ class Operators:
             RS, CD = init_pop(self.pop_size-len(iter_pond_RS), self.hunger_data)
             iter_pond_RS.extend(RS)
             iter_pond_CD.extend(CD)
-        # if now_iteration_num == 100:    # print biodiversity
-        #     print(existed_individual)
         return iter_pond_RS, iter_pond_CD
 
     def greed(self, rs, cd, trolley_available_time, trolley_carrying_capacity, trolley_coordinate, supply_depot_occupy,

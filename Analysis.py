@@ -9,8 +9,7 @@ scheduling_count = '1'
 input_file = 'scheduling'
 output_file = 'analysis'
 for running_count in range(1, 21):
-    # file_path = f'FitnessData/{beachmark}/{algorithm}/{input_file}{scheduling_count}_{running_count}.xlsx'
-    file_path = f'test/{input_file}{scheduling_count}_{running_count}.xlsx'
+    file_path = f'FitnessData/{beachmark}/{algorithm}/{input_file}{scheduling_count}_{running_count}.xlsx'
     df = pd.read_excel(file_path)
     last_column = df.iloc[:, -1]
     data = last_column.iloc[:].values
@@ -24,6 +23,4 @@ data_aggregation['Min'] = min_values
 data_aggregation['Mean'] = mean_values
 data_aggregation['Std'] = std_values
 
-# print(data_aggregation)
-# data_aggregation.to_excel(f'FitnessData/{beachmark}/{algorithm}/{output_file}.xlsx', index=False)
-data_aggregation.to_excel(f'test/{output_file}.xlsx', index=False)
+data_aggregation.to_excel(f'FitnessData/{beachmark}/{algorithm}/{output_file}.xlsx', index=False)
