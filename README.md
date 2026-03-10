@@ -9,18 +9,6 @@ MOFAFS（Multi-Objective Feeding Allocation and Feeding Scheduling）
 资源分配与智能决策
 调度算法实验与性能评估
 
-本项目主要用于 科研实验与算法验证。
-项目结构
-MOFAFS
-│
-├── data/                # 输入数据集
-├── models/              # 算法或模型实现
-├── utils/               # 工具函数
-├── experiments/         # 实验脚本
-├── results/             # 实验结果
-├── configs/             # 参数配置文件
-└── main.py              # 主程序入口
-
 环境配置
 建议使用 conda 环境。
 1 克隆仓库
@@ -37,8 +25,7 @@ python main.py
 运行实验
 python experiments/run_experiment.py
 
-实验参数可以在 configs/ 目录中进行配置。
-方法简介
+
 MOFAFS 框架面向 多目标投喂调度优化问题，综合考虑：
 养殖生物生长需求
 投喂资源约束
