@@ -17,14 +17,6 @@ cd MOFAFS
 2 创建环境
 conda create -n mofafs python=3.9
 conda activate mofafs
-3 安装依赖
-pip install -r requirements.txt
-使用方法
-运行主程序
-python main.py
-运行实验
-python experiments/run_experiment.py
-
 
 MOFAFS 框架面向 多目标投喂调度优化问题，综合考虑：
 养殖生物生长需求
@@ -36,12 +28,6 @@ MOFAFS 框架面向 多目标投喂调度优化问题，综合考虑：
 实验结果保存在：
 results/
 目录中。
-
-实验复现
-运行以下命令即可复现实验：
-python experiments/run_experiment.py
-请确保数据文件和配置文件路径正确。
-
 
 如果本项目对您的研究有所帮助，请引用：
 @misc{MOFAFS,
